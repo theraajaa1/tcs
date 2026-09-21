@@ -1,0 +1,70 @@
+<main class="page-shell">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Fullstack assessment</p>
+      <h4>TCS Task manager</h4>
+    </div>
+  </header>
+
+  <section class="workspace" aria-label="Task manager workspace">
+    <form class="task-form" [formGroup]="taskForm" (ngSubmit)="submitTask()">
+      <div class="section-heading">
+        <div>
+          <h2>Add a task</h2>
+        </div>
+      </div>
+
+      <label for="title">Title</label>
+      <input id="title" type="text" formControlName="title" placeholder="e.g. API TCS ASSIGNMNT" />
+      @if (taskForm.controls.title.touched && taskForm.controls.title.invalid) {
+        <small class="field-error">Title is required.</small>
+      }
+
+      <label for="description">Description</label>
+      <textarea id="description" rows="5" formControlName="description" placeholder="Describe what needs to be built..."></textarea>
+
+      <button type="submit" [disabled]="saving()">
+        @if (saving()) { Saving... } @else { Save task }
+      </button>
+    </form>
+
+    <section class="task-list" aria-labelledby="task-list-title">
+      <div class="section-heading list-heading">
+        <div>
+          <h2 id="task-list-title">All tasks</h2>
+        </div>
+        <button class="refresh-button" type="button" (click)="loadTasks()" [disabled]="loading()" aria-label="Refresh tasks">Refresh</button>
+      </div>
+
+      @if (successMessage()) {
+        <p class="notice success">{{ successMessage() }}</p>
+      }
+      @if (errorMessage()) {
+        <p class="notice error">{{ errorMessage() }}</p>
+      }
+
+      @if (loading()) {
+        <p class="empty-state">Loading tasks...</p>
+      } @else if (tasks().length === 0) {
+        <p class="empty-state">No tasks yet. Please add a task using the form.</p>
+      } @else {
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Task</th><th>Description</th><th>Created</th></tr>
+            </thead>
+            <tbody>
+              @for (task of tasks(); track task.id) {
+                <tr>
+                  <td><strong>{{ task.title }}</strong></td>
+                  <td>{{ task.description }}</td>
+                  <td class="date">{{ task.createdAt | date:'MMM d, y, h:mm a' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+  </section>
+</main>
