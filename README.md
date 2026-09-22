@@ -59,4 +59,20 @@ Missing or worth improving:
 - The API currently exposes only list and create operations; update, delete, filtering, and pagination are not implemented.
 - Authentication, authorization, automated API tests, and broader frontend tests are not included.
 - The frontend API URL and CORS origin are hardcoded for local development.
+- API documentation - swagger can be added
 - User-facing loading, error, and validation states could be expanded.
+
+API:
+
+GET:
+curl --location --request GET 'http://localhost:8080/api/tasks' \
+--header 'Content-Type: application/json' \
+--data-raw ''
+
+POST:
+curl --location --request POST 'http://localhost:8080/api/tasks' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "title": "API TCS ASSIGNMNT",
+    "description": "Build Angular and Spring Boot Task Manager"
+  }'
